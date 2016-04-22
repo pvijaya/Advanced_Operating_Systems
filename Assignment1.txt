@@ -1,0 +1,28 @@
+1.	What is Orphan and Zombie processes?
+	
+	Orphan Process:
+	An orphan process is a system process whose parent process has been terminated, but still the orphan process keeps running.In an operating system that is something like unix or linux an orphaned process will be immediately adopted by the special init system process(which is usually, pid:1) - this kind of operation is also known as re-parenting.Though the process has the "init" process as its parent, it is still called an orphan process since the child's parent process that originally created it does not exist.
+
+	Zombie Process:
+	A zombie process or a defunct process is a process that has completed execution through the exit() system call but still continues to have an entry in the process table. Usually the process table might include the status of the process as "terminate state". Once the exit status is read through the wait system call, the zombie's entry is removed from the process table and it is said to be "reaped". A child process always first becomes a zombie process before being removed from the resource table. Normally zombies are waited on by their parent process and then reaped by the system – processes that stay zombies for a long time are regarded as an error and cause a resource leak.
+	Zombie processes should not be confused with an orphan processes. An orphan process is a process that is still executing, but whose parent has died. These do not remain as zombie processes - instead they are adopted by init (process ID 1), which waits on its children. The result is that a process that is both a zombie and an orphan will be acquired automatically.
+
+2.	What are the changes that occur when the child process calls the exec system call to execute a new program?
+	
+	When the child process calls exec() system call, all data in the original program is lost, and it is replaced with a running copy of the new program. This is known as overlaying. Although all data are replaced, the file descriptors that were open in the parent are closed only if the program has explicitly marked them close-on-exec. This allows the parent creating a pipe prior to calling fork() system call and use it to communicate with the executed program.exec() system call simply replaces the current process with a new program -- the pid(process ID) does not change.The exec() is issued by the calling process and what is exec'ed is referred to as the new program, not the new process since no new process is created.It is important to realize that control is'nt passed back to the calling process unless an error occurred with the exec() call.In the case of an error, the exec() returns a value back to the caling process. and if there's no error appears, the calling process is dead/lost.
+
+
+3. Write the contribution of each team member.
+
+Ali worked on setting up with Xinu OS and performing xinu boot. He worked on first part of assignment.
+Purnima worked on second part of assignment.
+Both of us discussed on both the questions and completed the report.
+
+
+References:
+
+https://en.wikipedia.org/wiki/Orphan_process
+https://en.wikipedia.org/wiki/Zombie_process
+http://www.cs.uregina.ca/Links/class-info/330/Fork/fork.html#exec
+https://en.wikipedia.org/wiki/Fork%E2%80%93exec
+
